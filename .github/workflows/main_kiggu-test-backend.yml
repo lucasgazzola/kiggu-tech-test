@@ -63,4 +63,4 @@ jobs:
         with:
           app-name: 'kiggu-test-backend'
           slot-name: 'Production'
-          package: backend/dist/
+          package: node-app/

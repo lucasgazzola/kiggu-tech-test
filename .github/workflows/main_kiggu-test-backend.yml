@@ -50,9 +50,6 @@ jobs:
         with:
           name: node-app
 
-      - name: List files after artifact download
-        run: ls -R
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -66,5 +63,4 @@ jobs:
         with:
           app-name: 'kiggu-test-backend'
           slot-name: 'Production'
-          package: node-app/
-          
+          package: node-app/src/

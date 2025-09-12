@@ -133,7 +133,7 @@ export default function WatchlistsPage() {
   const handleDeleteWatchlist = async (id: string, name: string) => {
     try {
       await apiClient.deleteWatchlist(id)
-      toast.success(`Watchlist &quot;${name}&quot; deleted successfully`)
+      toast.success(`Watchlist ${name} deleted successfully`)
       loadWatchlists()
     } catch (error) {
       toast.error(

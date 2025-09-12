@@ -78,7 +78,7 @@ class ApiClient {
     return res.json()
   }
   async deleteWatchlist(id: string) {
-    await fetch(`${this.baseURL}/watchlist/${id}`, { method: 'DELETE' })
+    await fetch(`${this.baseURL}/watchlists/${id}`, { method: 'DELETE' })
   }
 
   // Events

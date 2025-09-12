@@ -36,6 +36,10 @@ export default function RegisterPage() {
     setIsLoading(true)
     try {
       const res = await apiClient.register(name, email, password)
+      if (!res.token) {
+        toast({ type: 'error', title: 'Registration failed' })
+        return
+      }
       // apiClient.setToken(res.token)
       localStorage.setItem('token', res.token)
       toast({ type: 'success', title: 'Registration successful!' })

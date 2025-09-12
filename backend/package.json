@@ -7,7 +7,6 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "NODE_ENV=test jest",
     "prisma:resetdb": "npx prisma migrate reset --force && npx prisma migrate dev --name init",
     "test:inBand": "NODE_ENV=test jest --runInBand",
     "test:coverage": "NODE_ENV=test jest --coverage --runInBand",

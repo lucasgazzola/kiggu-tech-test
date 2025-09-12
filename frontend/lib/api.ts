@@ -1,21 +1,5 @@
-// import {
-//   AuthResponse,
-//   User,
-//   Watchlist,
-//   WatchlistTerm,
-//   Event,
-//   CreateEventRequest,
-//   CreateWatchlistRequest,
-//   CreateTermRequest,
-//   ApiError,
-// } from './types'
-// import { mockApiResponses } from './mockData'
-
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001/api'
-// const USE_MOCK_API = process.env.NEXT_PUBLIC_USE_MOCK_API === 'true'
-
-// API Client como clase, interpolando baseURL en todos los métodos
 class ApiClient {
   constructor(private baseURL: string) {}
 
@@ -26,6 +10,14 @@ class ApiClient {
       body: JSON.stringify({ name, email, password }),
       headers: { 'Content-Type': 'application/json' },
     })
+    if (!res.ok) {
+      const errorData = await res.json()
+      throw new Error(
+        `${res.status}: ${res.statusText} - ${
+          errorData.error || 'Registration failed'
+        }`
+      )
+    }
     return res.json()
   }
   async login(email: string, password: string) {
@@ -34,6 +26,14 @@ class ApiClient {
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
     })
+    if (!res.ok) {
+      const errorData = await res.json()
+      throw new Error(
+        `${res.status}: ${res.statusText} - ${
+          errorData.error || 'Login failed'
+        }`
+      )
+    }
     return res.json()
   }
   async logout(token: string | null) {

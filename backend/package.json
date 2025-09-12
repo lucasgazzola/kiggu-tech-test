@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Backend Node.js con Express y TypeScript para prueba técnica.",
   "main": "dist/server.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "tsc",

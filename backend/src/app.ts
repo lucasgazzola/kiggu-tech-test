@@ -1,9 +1,15 @@
 import express, { Application } from "express";
 import cors from "cors";
 import routes from "./routes";
+import dotenv from "dotenv";
 import { ErrorHandler } from "./exceptions/ErrorHandler";
 
 export function createApp(): Application {
+  // Cargar el .env correspondiente según NODE_ENV
+  dotenv.config({
+    path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+  });
+
   const app = express();
 
   // Middlewares globales

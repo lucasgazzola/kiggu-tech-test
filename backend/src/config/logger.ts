@@ -3,7 +3,7 @@ import { env } from "./env";
 
 let level: pino.Level = "info";
 
-if (env.NODE_ENV === "development") {
+if (env.NODE_ENV === "dev") {
   level = "debug";
 } else if (env.NODE_ENV === "test") {
   level = "error"; // menos ruido en test
@@ -14,7 +14,7 @@ export const logger = pino({
   timestamp: pino.stdTimeFunctions.isoTime,
   base: undefined, // No incluir pid/hostname por defecto
   transport:
-    env.NODE_ENV === "development"
+    env.NODE_ENV === "dev"
       ? {
           target: "pino-pretty",
           options: {

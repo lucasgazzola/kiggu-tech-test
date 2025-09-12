@@ -1,0 +1,56 @@
+name: CI/CD Node.js Deploy (no Docker)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  node-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # 3️⃣ Instalar dependencias (solo en ./backend)
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm install
+
+      # 4️⃣ Generar Prisma Client
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      # 5️⃣ Compilar TypeScript
+      - name: Build project
+        working-directory: ./backend
+        run: npm run build
+
+      # 6️⃣ Ejecutar migraciones Prisma
+      - name: Run Prisma migrations
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+
+      # 7️⃣ Deploy a Azure Web App (Node.js)
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: kiggu-test-backend # Reemplaza si tu WebApp tiene otro nombre
+          slot-name: Production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./backend
+
+      # 8️⃣ Mensaje final
+      - name: Deployment complete
+        run: echo "✅ Backend Node.js (con Prisma) desplegado correctamente en Azure!"

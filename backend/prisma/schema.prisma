@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Severity {
+  LOW
+  MED
+  HIGH
+  CRITICAL
+}
+
+enum EventStatus {
+  NEW
+  REVIEWED
+  CLOSED
+}
+
+model User {
+  id         String         @id @default(uuid())
+  email      String      @unique
+  name       String?
+  password   String      // hashed
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  watchlists Watchlist[]
+}
+
+model Watchlist {
+  id          String             @id @default(uuid())
+  name        String
+  description String?
+  owner       User            @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  events      Event[]          @relation("WatchlistEvents")
+  terms       WatchlistTermOnWatchlist[]
+}
+
+model WatchlistTerm {
+  id      String     @id @default(uuid())
+  value   String     @unique
+  matches EventMatch[]
+  watchlists WatchlistTermOnWatchlist[]
+}
+
+model WatchlistTermOnWatchlist {
+  id            String        @id @default(uuid())
+  watchlist     Watchlist     @relation(fields: [watchlistId], references: [id])
+  watchlistId   String
+  term          WatchlistTerm @relation(fields: [termId], references: [id])
+  termId        String
+
+  @@unique([watchlistId, termId])
+}
+
+model Event {
+  id              String       @id @default(uuid())
+  title           String
+  description     String?
+  status          EventStatus  @default(NEW)
+  severity        Severity?
+  summary         String?
+  suggestedAction String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  matches         EventMatch[]
+  watchlist       Watchlist?    @relation("WatchlistEvents", fields: [watchlistId], references: [id])
+  watchlistId     String?
+}
+
+model EventMatch {
+  id        String          @id @default(uuid())
+  event     Event        @relation(fields: [eventId], references: [id])
+  eventId   String
+  term      WatchlistTerm @relation(fields: [termId], references: [id])
+  termId    String
+  createdAt DateTime     @default(now())
+
+  @@unique([eventId, termId])
+}

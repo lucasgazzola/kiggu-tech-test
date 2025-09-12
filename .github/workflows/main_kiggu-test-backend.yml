@@ -22,11 +22,16 @@ jobs:
 
       # 3. Instalar dependencias (limpio)
       - name: Install dependencies
-        run: npm install
+
+        run: |
+          cd backend
+          npm install
 
       # 4. Compilar
       - name: Build project
-        run: npm run build
+        run: |
+          cd backend
+          npm run build
 
       # 5. Ejecutar tests (opcional)
       # - name: Run tests

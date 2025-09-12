@@ -15,27 +15,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
 
-      - name: Install and build
+      - name: Install, build, test
         working-directory: backend
         run: |
-          rm -rf dist
           npm ci
-          npm run build
+          npm run build --if-present
+          npm test --if-present
 
-      # - name: Run tests
-      #   working-directory: backend
-      #   run: npm test
-
-      - name: Upload artifact for deployment job
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: backend
+          path: backend/
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,14 +41,10 @@ jobs:
       contents: read
 
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: .
-
-      - name: List files after artifact download
-        run: ls -R
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -67,4 +59,3 @@ jobs:
         with:
           app-name: 'kiggu-test-backend'
           slot-name: 'Production'
-          package: ./backend

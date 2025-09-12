@@ -50,11 +50,6 @@ jobs:
         with:
           name: node-app
 
-      - name: Extract artifact
-        run: |
-          mkdir -p backend
-          tar -xzf node-app -C backend
-
       - name: Clean unnecessary files before deploy
         run: |
           rm -rf tests/

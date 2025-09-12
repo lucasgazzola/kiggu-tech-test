@@ -304,16 +304,16 @@ export default function EventsPage() {
 
           {/* Events List */}
           {filteredEvents.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-2 2x:grid-cols-3">
               {filteredEvents.map(event => (
                 <Card
                   key={event.id}
                   className="hover:shadow-md transition-shadow border border-gray-200 bg-white">
                   <CardContent className="p-5">
-                    <div className="flex flex-col h-full">
-                      <div className="flex items-start justify-between mb-2">
+                    <div className="flex flex-col gap-6 h-full">
+                      <div className="flex items-start justify-between">
                         <div>
-                          <div className="flex flex-col items-center gap-2">
+                          <div className="flex flex-col items-start gap-2">
                             <SeverityBadge severity={event.severity} />
                             <span className="text-xs text-gray-500">
                               {formatDate(event.createdAt)}

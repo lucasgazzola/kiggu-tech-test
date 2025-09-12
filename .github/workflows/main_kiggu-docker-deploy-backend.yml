@@ -1,0 +1,44 @@
+name: CI/CD Docker Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  docker-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Login en Azure Container Registry
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: kigguregistry.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      # 3️⃣ Build de la imagen Docker desde la carpeta backend/
+      - name: Build Docker image
+        run: docker build -t kigguregistry.azurecr.io/kiggu-backend:latest ./backend
+
+      # 4️⃣ Push de la imagen a ACR
+      - name: Push Docker image
+        run: docker push kigguregistry.azurecr.io/kiggu-backend:latest
+
+      # 5️⃣ Deploy a Azure Web App for Containers
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: my-azure-app # Reemplaza con el nombre de tu Web App
+          images: kigguregistry.azurecr.io/kiggu-backend:latest
+          slot-name: Production # Opcional si usas slots de despliegue
+
+      # 6️⃣ Mensaje final
+      - name: Deployment complete
+        run: echo "✅ Backend desplegado correctamente en Azure!"

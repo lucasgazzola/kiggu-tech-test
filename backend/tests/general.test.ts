@@ -1,3 +1,5 @@
+// Asegura que Jest esté disponible en el contexto de TypeScript
+import "jest";
 import request from "supertest";
 import { createApp } from "../src/app";
 

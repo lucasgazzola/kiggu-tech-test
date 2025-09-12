@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
   workflow_dispatch:
 
 jobs:
@@ -27,7 +29,7 @@ jobs:
         run: |
           cd backend
           npm install
-          npm run build --if-present
+          npm run build
           npm run test --if-present
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -47,6 +49,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+
+      - name: Extract artifact
+        run: |
+          mkdir -p backend
+          tar -xzf node-app -C backend
+
+      - name: Clean unnecessary files before deploy
+        run: |
+          rm -rf tests/
+          rm -rf _del_node_modules/
+          rm -rf src/
+          rm -rf frontend/
+          rm -f jest.config.js
+          rm -f prueba_fullstack.pdf
+          rm -f node_modules.tar.gz
 
       - name: Login to Azure
         uses: azure/login@v2

@@ -1,10 +1,9 @@
 import { createApp } from "./app";
-import { env } from "./config/env";
 import { logger } from "./config/logger";
 
 const app = createApp();
 
-const PORT = env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
   logger.info(`🚀 Server running on http://localhost:${PORT}`);

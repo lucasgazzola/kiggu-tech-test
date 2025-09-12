@@ -1,28 +1,28 @@
-import { createApp } from './app'
-import { env } from './config/env'
-import { logger } from './config/logger'
+import { createApp } from "./app";
+import { env } from "./config/env";
+import { logger } from "./config/logger";
 
-const app = createApp()
+const app = createApp();
 
-const PORT = env.PORT || 3000
+const PORT = env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
-  logger.info(`🚀 Server running on http://localhost:${PORT}`)
-})
+  logger.info(`🚀 Server running on http://localhost:${PORT}`);
+});
 
 // Graceful shutdown
-process.on('SIGINT', () => {
-  logger.info('🛑 SIGINT received, shutting down...')
+process.on("SIGINT", () => {
+  logger.info("🛑 SIGINT received, shutting down...");
   server.close(() => {
-    logger.info('✅ Server closed')
-    process.exit(0)
-  })
-})
+    logger.info("✅ Server closed");
+    process.exit(0);
+  });
+});
 
-process.on('SIGTERM', () => {
-  logger.info('🛑 SIGTERM received, shutting down...')
+process.on("SIGTERM", () => {
+  logger.info("🛑 SIGTERM received, shutting down...");
   server.close(() => {
-    logger.info('✅ Server closed')
-    process.exit(0)
-  })
-})
+    logger.info("✅ Server closed");
+    process.exit(0);
+  });
+});

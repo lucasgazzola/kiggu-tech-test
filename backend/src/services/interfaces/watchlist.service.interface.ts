@@ -1,4 +1,4 @@
-import { Watchlist } from "../models/watchlist.model";
+import { Watchlist } from "../../models/watchlist.model";
 
 export interface IWatchlistService {
   createWatchlist(data: Omit<Watchlist, "id">): Promise<Watchlist>;

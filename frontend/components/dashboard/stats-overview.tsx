@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Shield, AlertTriangle, CheckCircle, Eye } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 
 interface StatsOverviewProps {
   stats: {

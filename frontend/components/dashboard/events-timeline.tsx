@@ -10,9 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Event } from '@/lib/types'
-import { formatDistanceToNow } from 'date-fns'
-import { AlertTriangle, Clock, User, ArrowRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Clock, ArrowRight } from 'lucide-react'
 
 interface EventsTimelineProps {
   events: Event[]

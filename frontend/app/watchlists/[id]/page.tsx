@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 export default function WatchlistDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -33,6 +34,11 @@ export default function WatchlistDetailPage() {
         setRelatedEvents(Array.isArray(events) ? events : [])
       } catch (error) {
         // Manejo de error
+        if (error instanceof Error) {
+          toast.error(error.message || 'Failed to load watchlist')
+        } else {
+          toast.error('Failed to load watchlist')
+        }
       } finally {
         setLoading(false)
       }

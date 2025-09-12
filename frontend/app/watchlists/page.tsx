@@ -68,8 +68,12 @@ export default function WatchlistsPage() {
       const data = await apiClient.getWatchlists()
       setWatchlists(data)
     } catch (error) {
-      toast.error('Failed to load watchlists')
-      console.error('Watchlists loading error:', error)
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message ||
+              'Failed to load watchlists'
+          : 'Failed to load watchlists'
+      )
     } finally {
       setLoading(false)
     }
@@ -115,7 +119,12 @@ export default function WatchlistsPage() {
       setCreateForm({ name: '', description: '', terms: [] })
       loadWatchlists()
     } catch (error) {
-      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to create watchlist' : 'Failed to create watchlist')
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message ||
+              'Failed to create watchlist'
+          : 'Failed to create watchlist'
+      )
     } finally {
       setIsCreating(false)
     }
@@ -127,7 +136,12 @@ export default function WatchlistsPage() {
       toast.success(`Watchlist &quot;${name}&quot; deleted successfully`)
       loadWatchlists()
     } catch (error) {
-      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to delete watchlist' : 'Failed to delete watchlist')
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message ||
+              'Failed to delete watchlist'
+          : 'Failed to delete watchlist'
+      )
     }
   }
 
@@ -353,8 +367,7 @@ export default function WatchlistsPage() {
                                 Delete Watchlist
                               </AlertDialogTitle>
                               <AlertDialogDescription>
-                                Are you sure you want to delete "
-                                {watchlist.name}"? This action cannot be undone.
+                                {`Are you sure you want to delete "${watchlist.name}"? This action cannot be undone.`}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

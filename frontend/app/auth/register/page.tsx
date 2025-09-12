@@ -45,7 +45,13 @@ export default function RegisterPage() {
       toast({ type: 'success', title: 'Registration successful!' })
       router.push('/dashboard')
     } catch (error) {
-      toast({ type: 'error', title: typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Registration failed' : 'Registration failed' })
+      toast({
+        type: 'error',
+        title:
+          typeof error === 'object' && error && 'message' in error
+            ? (error as { message?: string }).message || 'Registration failed'
+            : 'Registration failed',
+      })
     } finally {
       setIsLoading(false)
     }

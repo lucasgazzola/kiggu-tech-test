@@ -36,7 +36,11 @@ export default function EventDetailPage() {
         const watchlists = await apiClient.getEventMatchedWatchlists(id)
         setRelatedWatchlists(Array.isArray(watchlists) ? watchlists : [])
       } catch (error) {
-        // Manejo de error
+        if (error instanceof Error) {
+          toast.error(error.message || 'Failed to load event')
+        } else {
+          toast.error('Failed to load event')
+        }
       } finally {
         setLoading(false)
       }
@@ -50,8 +54,12 @@ export default function EventDetailPage() {
       const enrichedEvent = await apiClient.enrichEvent(eventId)
       setEvent(enrichedEvent)
       toast.success('Event enriched successfully')
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to enrich event')
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message || 'Failed to enrich event')
+      } else {
+        toast.error('Failed to enrich event')
+      }
     } finally {
       setIsEnrichingEvent(false)
     }

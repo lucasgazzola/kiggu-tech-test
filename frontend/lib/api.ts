@@ -103,7 +103,10 @@ class ApiClient {
     })
     return res.json()
   }
-  async updateEvent(id: string, data: any) {
+  async updateEvent(
+    id: string,
+    data: { title?: string; description?: string; status?: string }
+  ) {
     const res = await fetch(`${this.baseURL}/events/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),

@@ -36,7 +36,6 @@ import {
   Eye,
   RefreshCw,
   Filter,
-  AlertCircle,
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -95,7 +94,11 @@ export default function EventsPage() {
       setCreateForm({ title: '', description: '' })
       loadData()
     } catch (error) {
-      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to create event' : 'Failed to create event')
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message || 'Failed to create event'
+          : 'Failed to create event'
+      )
     } finally {
       setIsCreating(false)
     }
@@ -111,7 +114,11 @@ export default function EventsPage() {
       )
       toast.success('Event enriched successfully')
     } catch (error) {
-      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to enrich event' : 'Failed to enrich event')
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message || 'Failed to enrich event'
+          : 'Failed to enrich event'
+      )
     } finally {
       setEnrichingEvents(prev => {
         const newSet = new Set(prev)

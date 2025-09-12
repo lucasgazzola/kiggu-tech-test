@@ -39,7 +39,7 @@ export function SeverityChart({ severityCounts }: SeverityChartProps) {
   }))
 
   const pieData = Object.entries(severityCounts)
-    .filter(([_, count]) => count > 0)
+    .filter(([, count]) => count > 0)
     .map(([severity, count]) => ({
       name: severity,
       value: count,

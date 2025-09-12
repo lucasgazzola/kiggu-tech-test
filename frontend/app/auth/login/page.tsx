@@ -42,7 +42,11 @@ export default function LoginPage() {
       toast.success('Welcome back!')
       router.push('/dashboard')
     } catch (error) {
-      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Login failed' : 'Login failed')
+      toast.error(
+        typeof error === 'object' && error && 'message' in error
+          ? (error as { message?: string }).message || 'Login failed'
+          : 'Login failed'
+      )
     } finally {
       setIsLoading(false)
     }
@@ -130,7 +134,9 @@ export default function LoginPage() {
               </Button>
 
               <div className="text-center text-sm mt-2">
-                <span className="text-gray-600">Don&apos;t have an account? </span>
+                <span className="text-gray-600">
+                  {"Don't have an account? "}
+                </span>
                 <Link
                   href="/auth/register"
                   className="font-medium text-blue-600 hover:text-blue-500">

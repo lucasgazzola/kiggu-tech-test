@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Clean and build TypeScript
+      - name: Install and build
         working-directory: backend
         run: |
           rm -rf dist
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: backend/
+          path: backend/**
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,6 +49,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: .
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -57,10 +58,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C730FF09DF854A10B70E7F683C884971 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_40629FA9A92A4D44B318E32C2DD606BF }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kiggu-test-backend'
           slot-name: 'Production'
-          package: node-app
+          package: ./node-app

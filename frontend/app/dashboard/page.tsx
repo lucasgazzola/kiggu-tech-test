@@ -24,7 +24,6 @@ import {
   Activity,
   Plus,
   TrendingUp,
-  Users,
   FileText,
 } from 'lucide-react'
 import Link from 'next/link'
@@ -67,7 +66,7 @@ export default function DashboardPage() {
         criticalEvents,
         highEvents,
       })
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to load dashboard data')
       console.error('Dashboard data loading error:', error)
     } finally {

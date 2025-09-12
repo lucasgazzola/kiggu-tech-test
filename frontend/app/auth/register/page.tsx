@@ -44,8 +44,8 @@ export default function RegisterPage() {
       localStorage.setItem('token', res.token)
       toast({ type: 'success', title: 'Registration successful!' })
       router.push('/dashboard')
-    } catch (error: any) {
-      toast({ type: 'error', title: error.message || 'Registration failed' })
+    } catch (error) {
+      toast({ type: 'error', title: typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Registration failed' : 'Registration failed' })
     } finally {
       setIsLoading(false)
     }

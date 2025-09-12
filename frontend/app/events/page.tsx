@@ -63,7 +63,7 @@ export default function EventsPage() {
       setLoading(true)
       const eventsData = await apiClient.getEvents()
       setEvents(eventsData)
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to load data')
       console.error('Data loading error:', error)
     } finally {
@@ -94,8 +94,8 @@ export default function EventsPage() {
       setIsCreateDialogOpen(false)
       setCreateForm({ title: '', description: '' })
       loadData()
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to create event')
+    } catch (error) {
+      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to create event' : 'Failed to create event')
     } finally {
       setIsCreating(false)
     }
@@ -110,8 +110,8 @@ export default function EventsPage() {
         prev.map(event => (event.id === eventId ? enrichedEvent : event))
       )
       toast.success('Event enriched successfully')
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to enrich event')
+    } catch (error) {
+      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to enrich event' : 'Failed to enrich event')
     } finally {
       setEnrichingEvents(prev => {
         const newSet = new Set(prev)

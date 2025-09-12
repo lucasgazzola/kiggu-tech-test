@@ -67,7 +67,7 @@ export default function WatchlistsPage() {
       setLoading(true)
       const data = await apiClient.getWatchlists()
       setWatchlists(data)
-    } catch (error: any) {
+    } catch (error) {
       toast.error('Failed to load watchlists')
       console.error('Watchlists loading error:', error)
     } finally {
@@ -114,8 +114,8 @@ export default function WatchlistsPage() {
       setIsCreateDialogOpen(false)
       setCreateForm({ name: '', description: '', terms: [] })
       loadWatchlists()
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to create watchlist')
+    } catch (error) {
+      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to create watchlist' : 'Failed to create watchlist')
     } finally {
       setIsCreating(false)
     }
@@ -124,10 +124,10 @@ export default function WatchlistsPage() {
   const handleDeleteWatchlist = async (id: string, name: string) => {
     try {
       await apiClient.deleteWatchlist(id)
-      toast.success(`Watchlist "${name}" deleted successfully`)
+      toast.success(`Watchlist &quot;${name}&quot; deleted successfully`)
       loadWatchlists()
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to delete watchlist')
+    } catch (error) {
+      toast.error(typeof error === 'object' && error && 'message' in error ? (error as { message?: string }).message || 'Failed to delete watchlist' : 'Failed to delete watchlist')
     }
   }
 

@@ -1,0 +1,11 @@
+# Azure App Service deployment configuration for monorepo
+# Este archivo permite que Azure App Service ejecute los comandos npm en la carpeta backend/
+
+[config]
+SCM_DO_BUILD_DURING_DEPLOYMENT=true
+
+[build]
+command = "cd backend && npm install && npm run build"
+
+[start]
+command = "cd backend && npm start"

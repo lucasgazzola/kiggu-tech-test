@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22' # tu versión de Node
-          cache: 'npm'
 
       # 3. Instalar dependencias (limpio)
       - name: Install dependencies

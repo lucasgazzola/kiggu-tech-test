@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy Node.js app to Azure Web App - kiggu-test-backend
 
 on:
@@ -10,52 +13,53 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
 
-      - name: Install, build, test
-        working-directory: backend
+      - name: npm install, build, and test
         run: |
-          npm ci
+          npm install
           npm run build --if-present
-          npm test --if-present
+          npm run test --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: backend
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write
-      contents: read
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Download artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: .
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_58DE23663DF44C3FA11597DC078E5264 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C730FF09DF854A10B70E7F683C884971 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_40629FA9A92A4D44B318E32C2DD606BF }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_396715FD2B724DC8B393BAF9D7CA28A7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_60F8219D3840423393943392A07A1557 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_512AA7F8A2EB4BD4A88B8E2AE802338E }}
 
-      - name: Deploy to Azure Web App
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'kiggu-test-backend'
           slot-name: 'Production'
+          package: .
+          

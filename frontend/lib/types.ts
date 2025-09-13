@@ -15,6 +15,7 @@ export interface Watchlist {
   description: string
   ownerId: string
   terms: WatchlistTerm[]
+  owner: User
   createdAt?: string
   updatedAt?: string
 }
@@ -36,7 +37,6 @@ export interface Event {
   status: string
   severity: EventSeverity
   suggestedAction: string
-  watchlistId: string
   createdAt?: string
   updatedAt?: string
 }

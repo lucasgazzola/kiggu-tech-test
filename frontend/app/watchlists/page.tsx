@@ -179,7 +179,7 @@ export default function WatchlistsPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <LoadingSpinner size="lg" />
-            <p className="mt-2 text-sm text-gray-600">Loading watchlists...</p>
+            <p className="mt-2 text-sm text-zinc-600">Loading watchlists...</p>
           </div>
         </div>
       </ProtectedRoute>
@@ -189,22 +189,24 @@ export default function WatchlistsPage() {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-zinc-50">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="px-4 py-6 sm:px-0">
-            <div className="flex items-center justify-between">
+          <div className="px-4 py-8 sm:px-0">
+            <div className="flex flex-col items-center justify-between xl:flex-row gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Watchlists</h1>
-                <p className="mt-1 text-sm text-gray-600">
-                  Manage your security monitoring watchlists
+                <h1 className="text-3xl text-center 2xl:text-start font-bold text-zinc-900">
+                  Watchlists
+                </h1>
+                <p className="mt-1 text-sm text-zinc-600">
+                  Organize and monitor your custom security watchlists
                 </p>
               </div>
               <Dialog
                 open={isCreateDialogOpen}
                 onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="bg-zinc-900 text-white font-semibold shadow-lg hover:bg-zinc-800 transition-colors px-5 py-2 rounded-lg w-full max-w-[200px]">
                     <Plus className="h-4 w-4 mr-2" />
                     Create Watchlist
                   </Button>
@@ -314,7 +316,7 @@ export default function WatchlistsPage() {
           <div className="px-4 sm:px-0 mb-6">
             <div className="max-w-md">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-4 w-4" />
                 <Input
                   type="text"
                   placeholder="Search watchlists..."
@@ -328,35 +330,42 @@ export default function WatchlistsPage() {
 
           {/* Watchlists Grid */}
           {filteredWatchlists.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
               {filteredWatchlists.map(watchlist => (
                 <Card
                   key={watchlist.id}
-                  className="hover:shadow-md transition-shadow border border-gray-200 bg-white">
+                  className="relative overflow-hidden border border-zinc-200 bg-white rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-200 group">
+                  <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-zinc-400 to-zinc-200 group-hover:from-zinc-700 group-hover:to-zinc-400 transition-all" />
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <CardTitle className="text-lg font-bold text-gray-900 mb-1">
-                          {watchlist.name}
+                        <CardTitle className="text-lg font-bold text-zinc-900 mb-1 flex items-center gap-2">
+                          <FileText className="h-5 w-5 text-zinc-500 group-hover:text-zinc-700 transition-colors" />
+                          <span className="group-hover:text-zinc-700 transition-colors">
+                            {watchlist.name}
+                          </span>
                         </CardTitle>
-                        <CardDescription className="mt-1 text-gray-600">
+                        <CardDescription className="mt-1 text-zinc-600 group-hover:text-zinc-800 transition-colors">
                           {watchlist.description || 'No description provided'}
                         </CardDescription>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col md:flex-row 2xl:flex-col gap-2">
                         <Button
                           asChild
-                          variant="ghost"
+                          variant="outline"
                           size="sm"
-                          className="hover:bg-gray-100">
+                          className="border-zinc-300 text-zinc-700 font-medium hover:bg-zinc-100">
                           <Link href={`/watchlists/${watchlist.id}`}>
-                            <Eye className="h-4 w-4 mr-1 text-gray-500" />
+                            <Eye className="h-4 w-4 mr-1 text-zinc-500" />
                             <span className="text-xs">View</span>
                           </Link>
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="sm">
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="font-medium">
                               <Trash2 className="h-4 w-4" />
                               <span className="text-xs">Delete</span>
                             </Button>
@@ -393,27 +402,27 @@ export default function WatchlistsPage() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="secondary"
-                          className="px-2 py-1 text-xs font-medium">
+                          className="px-2 py-1 text-xs font-semibold bg-zinc-200 text-zinc-900 border-zinc-300 shadow-sm">
                           {watchlist.terms.length} terms
                         </Badge>
                       </div>
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                          Monitored terms:
+                        <h4 className="text-sm font-semibold text-zinc-700 mb-2">
+                          Monitored terms
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {watchlist.terms.slice(0, 3).map((term, index) => (
                             <Badge
                               key={index}
                               variant="outline"
-                              className="text-xs px-2 py-1 font-normal">
+                              className="text-xs px-2 py-1 font-medium border-zinc-300 text-zinc-700 bg-zinc-50">
                               {term.value}
                             </Badge>
                           ))}
                           {watchlist.terms.length > 3 && (
                             <Badge
                               variant="outline"
-                              className="text-xs px-2 py-1 font-normal">
+                              className="text-xs px-2 py-1 font-medium border-zinc-300 text-zinc-700 bg-zinc-50">
                               +{watchlist.terms.length - 3} more
                             </Badge>
                           )}
@@ -426,11 +435,11 @@ export default function WatchlistsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <FileText className="h-16 w-16 text-zinc-300 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-zinc-900 mb-2">
                 {searchQuery ? 'No watchlists found' : 'No watchlists yet'}
               </h3>
-              <p className="text-gray-500 mb-6 max-w-md mx-auto">
+              <p className="text-zinc-500 mb-6 max-w-md mx-auto">
                 {searchQuery
                   ? "Try adjusting your search terms to find what you're looking for."
                   : 'Create your first watchlist to start monitoring security events and patterns.'}
@@ -440,7 +449,7 @@ export default function WatchlistsPage() {
                   open={isCreateDialogOpen}
                   onOpenChange={setIsCreateDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button>
+                    <Button variant="secondary">
                       <Plus className="h-4 w-4 mr-2" />
                       Create Your First Watchlist
                     </Button>

@@ -158,7 +158,7 @@ export default function EventsPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <LoadingSpinner size="lg" />
-            <p className="mt-2 text-sm text-gray-600">Loading events...</p>
+            <p className="mt-2 text-sm text-zinc-600">Loading events...</p>
           </div>
         </div>
       </ProtectedRoute>
@@ -168,16 +168,16 @@ export default function EventsPage() {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-zinc-50">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="px-4 py-6 sm:px-0">
-            <div className="flex items-start justify-between">
+            <div className="flex items-center justify-between flex-col 2xl:flex-row gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl text-center 2xl:text-start font-bold text-zinc-900">
                   Security Events
                 </h1>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-1 text-sm text-zinc-600">
                   Monitor and analyze security events across your watchlists
                 </p>
               </div>
@@ -270,7 +270,7 @@ export default function EventsPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1 max-w-md">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-4 w-4" />
                   <Input
                     type="text"
                     placeholder="Search events..."
@@ -280,13 +280,13 @@ export default function EventsPage() {
                   />
                 </div>
               </div>
-              <div className="w-full text-gray-950 sm:w-48">
+              <div className="w-full text-zinc-950 sm:w-48">
                 <Select
                   value={severityFilter}
                   onValueChange={value =>
                     setSeverityFilter(value as EventSeverity | 'ALL')
                   }>
-                  <SelectTrigger className="text-xs font-normal text-gray-900">
+                  <SelectTrigger className="text-xs font-normal text-zinc-900">
                     <Filter className="h-4 w-4 mr-2" />
                     <SelectValue placeholder="Filter by severity" />
                   </SelectTrigger>
@@ -308,18 +308,18 @@ export default function EventsPage() {
               {filteredEvents.map(event => (
                 <Card
                   key={event.id}
-                  className="hover:shadow-md transition-shadow border border-gray-200 bg-white">
+                  className="hover:shadow-md transition-shadow border border-zinc-200 bg-white">
                   <CardContent className="p-5">
                     <div className="flex flex-col gap-6 h-full">
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="flex flex-col items-start gap-2">
                             <SeverityBadge severity={event.severity} />
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-zinc-500">
                               {formatDate(event.createdAt)}
                             </span>
                           </div>
-                          <h3 className="text-base font-semibold text-gray-900 mt-1 truncate">
+                          <h3 className="text-base font-semibold text-zinc-900 mt-1 truncate">
                             {event.title}
                           </h3>
                         </div>
@@ -328,9 +328,9 @@ export default function EventsPage() {
                             asChild
                             variant="ghost"
                             size="sm"
-                            className="hover:bg-gray-100">
+                            className="hover:bg-zinc-100">
                             <Link href={`/events/${event.id}`}>
-                              <Eye className="h-4 w-4 mr-1 text-gray-500" />
+                              <Eye className="h-4 w-4 mr-1 text-zinc-500" />
                               <span className="text-xs">View</span>
                             </Link>
                           </Button>
@@ -354,25 +354,25 @@ export default function EventsPage() {
                         </div>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 mb-2 line-clamp-3">
+                        <p className="text-sm text-zinc-600 mb-2 line-clamp-3">
                           {event.description}
                         </p>
                         {event.summary && (
                           <div className="mb-2">
-                            <h4 className="text-xs font-medium text-gray-700 mb-1">
+                            <h4 className="text-xs font-medium text-zinc-700 mb-1">
                               AI Summary:
                             </h4>
-                            <p className="text-xs text-gray-600 bg-blue-50 p-2 rounded">
+                            <p className="text-xs text-zinc-600 bg-blue-50 p-2 rounded">
                               {event.summary}
                             </p>
                           </div>
                         )}
                         {event.suggestedAction && (
                           <div className="mb-2">
-                            <h4 className="text-xs font-medium text-gray-700 mb-1">
+                            <h4 className="text-xs font-medium text-zinc-700 mb-1">
                               Suggested Action:
                             </h4>
-                            <p className="text-xs text-gray-600 bg-green-50 p-2 rounded">
+                            <p className="text-xs text-zinc-600 bg-green-50 p-2 rounded">
                               {event.suggestedAction}
                             </p>
                           </div>
@@ -385,13 +385,13 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Activity className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <Activity className="h-16 w-16 text-zinc-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-zinc-900 mb-2">
                 {searchQuery || severityFilter !== 'ALL'
                   ? 'No events found'
                   : 'No events yet'}
               </h3>
-              <p className="text-gray-500 mb-6 max-w-md mx-auto">
+              <p className="text-zinc-500 mb-6 max-w-md mx-auto">
                 {searchQuery || severityFilter !== 'ALL'
                   ? "Try adjusting your search terms or filters to find what you're looking for."
                   : 'Security events will appear here when detected or simulated. Create a test event to get started.'}

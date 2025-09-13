@@ -46,23 +46,12 @@ export default function WatchlistDetailPage() {
     fetchWatchlistAndEvents()
   }, [id])
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <div className="min-h-screen flex items-center justify-center">
-          <LoadingSpinner size="lg" />
-        </div>
-      </>
-    )
-  }
-
   if (!watchlist) {
     return (
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center">
-          <p>No se encontró la watchlist.</p>
+          <p>Watchlist not found.</p>
         </div>
       </>
     )
@@ -71,33 +60,47 @@ export default function WatchlistDetailPage() {
   return (
     <>
       <Navbar />
-      <div className="max-w-2xl mx-auto py-8">
-        <Card className="border border-gray-200 bg-white shadow-md">
+      <div className="max-w-2xl mx-auto py-12">
+        <Card className="border border-zinc-100 bg-white shadow-md rounded-3xl px-6 py-8">
           <CardHeader className="pb-2">
-            <CardTitle className="text-2xl font-bold text-gray-900 mb-1">
-              {watchlist.name}
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              {watchlist.description}
-            </CardDescription>
+            <div className="flex flex-col gap-2">
+              <CardTitle className="text-3xl font-extrabold text-zinc-900 tracking-tight flex items-center gap-3">
+                {watchlist.name}
+              </CardTitle>
+            </div>
           </CardHeader>
           <CardContent>
-            <h4 className="font-semibold mb-2 text-gray-800">
-              Términos monitoreados:
-            </h4>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {watchlist.terms.map(term => (
-                <Badge
-                  key={term.value}
-                  variant="outline"
-                  className="text-xs px-2 py-1 font-normal">
-                  {term.value}
-                </Badge>
-              ))}
+            <CardDescription className="text-zinc-600 text-base italic pb-6">
+              {watchlist.description}
+            </CardDescription>
+            <div className="mb-6 p-6 rounded-2xl bg-zinc-100 border border-zinc-100">
+              <h4 className="font-semibold text-zinc-900 text-lg mb-2 flex items-center gap-2">
+                <span role="img" aria-label="Terms">
+                  🔍
+                </span>
+                Monitored Terms
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {watchlist.terms && watchlist.terms.length > 0 ? (
+                  watchlist.terms.map(term => (
+                    <Badge
+                      key={term.value}
+                      variant="outline"
+                      className="bg-zinc-100 text-zinc-900 font-semibold px-3 py-1 text-xs rounded-full shadow-sm">
+                      {term.value}
+                    </Badge>
+                  ))
+                ) : (
+                  <span className="text-zinc-400 text-sm">No terms</span>
+                )}
+              </div>
             </div>
-            <div className="mt-6">
-              <h4 className="font-semibold mb-2 text-gray-800">
-                Eventos relacionados:
+            <div className="mb-6 p-6 rounded-2xl bg-zinc-100 border border-zinc-100">
+              <h4 className="font-semibold text-zinc-900 text-lg mb-2 flex items-center gap-2">
+                <span role="img" aria-label="Events">
+                  📊
+                </span>
+                Related Events
               </h4>
               <div className="flex flex-col gap-3">
                 {relatedEvents.length > 0 ? (
@@ -105,18 +108,45 @@ export default function WatchlistDetailPage() {
                     <Link
                       key={event.id}
                       href={`/events/${event.id}`}
-                      className="block p-4 rounded-lg border border-gray-100 bg-blue-50 hover:bg-blue-100 transition-colors shadow-sm text-gray-900 font-medium">
-                      <span className="text-base font-semibold">
+                      className="block p-4 rounded-xl border border-zinc-100 bg-white hover:bg-zinc-100 transition-all shadow text-zinc-900 font-semibold">
+                      <span className="text-base font-bold flex items-center gap-2">
+                        <span role="img" aria-label="Event">
+                          🔎
+                        </span>
                         {event.title}
                       </span>
                     </Link>
                   ))
                 ) : (
-                  <span className="text-gray-500 text-sm">
-                    Ningún evento relacionado
+                  <span className="text-zinc-400 text-sm">
+                    No related events
                   </span>
                 )}
               </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              {watchlist.owner.name && (
+                <div className="flex flex-col p-4 rounded-xl bg-zinc-50 border border-zinc-100">
+                  <span className="font-semibold text-zinc-900">Owner:</span>
+                  <span className="text-zinc-700">{watchlist.owner.name}</span>
+                </div>
+              )}
+              {watchlist.createdAt && (
+                <div className="flex flex-col p-4 rounded-xl bg-zinc-50 border border-zinc-100">
+                  <span className="font-semibold text-zinc-900">Created:</span>
+                  <span className="text-zinc-700">
+                    {new Date(watchlist.createdAt).toLocaleString()}
+                  </span>
+                </div>
+              )}
+              {watchlist.updatedAt && (
+                <div className="flex flex-col text-start p-4 rounded-xl bg-zinc-50 border border-zinc-100">
+                  <span className="font-semibold text-zinc-900">Updated:</span>
+                  <span className="text-zinc-700">
+                    {new Date(watchlist.updatedAt).toLocaleString()}
+                  </span>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
